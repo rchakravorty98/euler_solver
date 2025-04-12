@@ -52,8 +52,8 @@ r43 = h + ek + c.* contra_vel;
 r44 = u.*ny - v.*nx;
 
 %% Left Eigen Vectors
-l11 = (c.*contra_vel + (gamma-1).*(u.^2+v.^2)) ./ (2*c.^2);
-l12 = (-c.*nx + (gamma-1).*u) ./ (2*c.^2);
+l11 = (2*c.*contra_vel + (gamma-1).*(u.^2+v.^2)) ./ (4*c.^2);
+l12 = -(c.*nx + (gamma-1).*u) ./ (2*c.^2);
 l13 = (-c.*ny + (gamma-1).*v) ./ (2*c.^2);
 l14 = (gamma-1) ./ (2*c.^2);
 
@@ -62,7 +62,7 @@ l22 = ((gamma-1)*u) ./ (c.^2);
 l23 = ((gamma-1)*v) ./ (c.^2);
 l24 = -(gamma-1) ./ (c.^2);
 
-l31 = (-c.*contra_vel + (gamma-1).*(u.^2+v.^2)) ./ (2*c.^2);
+l31 = (-2*c.*contra_vel + (gamma-1).*(u.^2+v.^2)) ./ (4*c.^2);
 l32 = (c.*nx - (gamma-1).*u) ./ (2*c.^2);
 l33 = (c.*ny - (gamma-1).*v) ./ (2*c.^2);
 l34 = (gamma-1) ./ (2*c.^2);
