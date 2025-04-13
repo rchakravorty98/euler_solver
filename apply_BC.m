@@ -69,7 +69,7 @@ for j = [2 ny+1]
 
     % Halo Cell
     rho_o = P_int ./ (R .* T_int);
-    rho_et_o = P_int ./ (gamma-1) + 0.5 .* rho_o .* (u_o.^2 + v_o.^2);
+    rho_et_o = (P_int ./ (gamma-1)) + 0.5 .* rho_o .* (u_o.^2 + v_o.^2);
 
     % Replace Halo Cell
     Q.q1(2:nx, halo_ind) = rho_o .* grid.deltaV(2:nx, halo_ind);

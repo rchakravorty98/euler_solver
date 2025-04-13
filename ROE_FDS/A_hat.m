@@ -54,7 +54,7 @@ r44 = u.*ny - v.*nx;
 %% Left Eigen Vectors
 l11 = (2*c.*contra_vel + (gamma-1).*(u.^2+v.^2)) ./ (4*c.^2);
 l12 = -(c.*nx + (gamma-1).*u) ./ (2*c.^2);
-l13 = (-c.*ny + (gamma-1).*v) ./ (2*c.^2);
+l13 = -(c.*ny + (gamma-1).*v) ./ (2*c.^2);
 l14 = (gamma-1) ./ (2*c.^2);
 
 l21 = 1 - ((gamma-1).*(u.^2+v.^2)) ./ (2*c.^2);
