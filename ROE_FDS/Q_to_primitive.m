@@ -1,4 +1,4 @@
-function [rho, u, v, et, P, T] = Q_to_primitive(q1, q2, q3, q4, deltaV, fluid)
+function [rho, u, v, et, P, T, ht] = Q_to_primitive(q1, q2, q3, q4, deltaV, fluid)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Decomposes Q vector into primitive variables
 %
@@ -14,6 +14,8 @@ et = q4 ./ q1;
 
 T = (et - 0.5*(u.^2+v.^2))/cv;
 P = rho .* R .* T; 
+
+ht = et + P./rho;
 
 
 end
