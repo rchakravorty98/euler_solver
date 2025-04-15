@@ -25,14 +25,7 @@ E.e4 = zeros(numel(2:nx+1), numel(2:ny));
     Q.q3(2:nx+1,j_idx), Q.q4(2:nx+1,j_idx), grid.deltaV(2:nx+1,j_idx), fluid);
 
 %%% Roe Averages
-u_bar = ((rho_r.^(1/2) .* u_r) + (rho_l.^(1/2) .* u_l)) ./ ...
-    (rho_r.^(1/2) + rho_l.^(1/2));
-v_bar = ((rho_r.^(1/2) .* v_r) + (rho_l.^(1/2) .* v_l)) ./ ...
-    (rho_r.^(1/2) + rho_l.^(1/2));
-rho_bar = (rho_r .* rho_l).^(1/2);
-ht_bar = ((rho_r.^(1/2) .* ht_r) + (rho_l.^(1/2) .* ht_l)) ./ ...
-    (rho_r.^(1/2) + rho_l.^(1/2));
-c_bar = ((gamma-1) * (ht_bar - 0.5*(u_bar.^2 + v_bar.^2))).^(1/2);
+[u_bar, v_bar, ht_bar, c_bar] = roe_avg(rho_l, rho_r, u_l, u_r, v_l, v_r, ht_l, ht_r, fluid);
 
 %%% Jacobian
 deltaV_avg = (grid.deltaV(2:nx+1,j_idx)+ grid.deltaV(1:nx,j_idx))/2;
@@ -98,14 +91,7 @@ F.f4 = zeros(numel(2:nx), numel(2:ny+1));
     Q.q3(i_idx,2:ny+1), Q.q4(i_idx,2:ny+1), grid.deltaV(i_idx,2:ny+1), fluid);
 
 %%% Roe Averages
-u_bar = ((rho_r.^(1/2) .* u_r) + (rho_l.^(1/2) .* u_l)) ./ ...
-    (rho_r.^(1/2) + rho_l.^(1/2));
-v_bar = ((rho_r.^(1/2) .* v_r) + (rho_l.^(1/2) .* v_l)) ./ ...
-    (rho_r.^(1/2) + rho_l.^(1/2));
-rho_bar = (rho_r .* rho_l).^(1/2);
-ht_bar = ((rho_r.^(1/2) .* ht_r) + (rho_l.^(1/2) .* ht_l)) ./ ...
-    (rho_r.^(1/2) + rho_l.^(1/2));
-c_bar = ((gamma-1) * (ht_bar - 0.5*(u_bar.^2 + v_bar.^2))).^(1/2);
+[u_bar, v_bar, ht_bar, c_bar] = roe_avg(rho_l, rho_r, u_l, u_r, v_l, v_r, ht_l, ht_r, fluid);
 
 %%% Jacobian
 deltaV_avg = (grid.deltaV(i_idx,2:ny+1)+ grid.deltaV(i_idx,1:ny))/2;
