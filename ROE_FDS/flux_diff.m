@@ -18,9 +18,9 @@ F_diff.f3 = F.f3(:, 2:ny).*S_eta(:,2:ny) - F.f3(:, 1:ny-1).*S_eta(:, 1:ny-1);
 F_diff.f4 = F.f4(:, 2:ny).*S_eta(:,2:ny) - F.f4(:, 1:ny-1).*S_eta(:, 1:ny-1); 
 
 %%% Q at Next Time Step
-Q_new.q1(2:nx, 2:ny) = Q.q1(2:nx, 2:ny) - deltaT*(E_diff.e1 + F_diff.f1);
-Q_new.q2(2:nx, 2:ny) = Q.q2(2:nx, 2:ny) - deltaT*(E_diff.e2 + F_diff.f2);
-Q_new.q3(2:nx, 2:ny) = Q.q3(2:nx, 2:ny) - deltaT*(E_diff.e3 + F_diff.f3);
-Q_new.q4(2:nx, 2:ny) = Q.q4(2:nx, 2:ny) - deltaT*(E_diff.e4 + F_diff.f4);
+Q_new.q1(2:nx, 2:ny) = Q.q1(2:nx, 2:ny) - deltaT.*(E_diff.e1 + F_diff.f1);
+Q_new.q2(2:nx, 2:ny) = Q.q2(2:nx, 2:ny) - deltaT.*(E_diff.e2 + F_diff.f2);
+Q_new.q3(2:nx, 2:ny) = Q.q3(2:nx, 2:ny) - deltaT.*(E_diff.e3 + F_diff.f3);
+Q_new.q4(2:nx, 2:ny) = Q.q4(2:nx, 2:ny) - deltaT.*(E_diff.e4 + F_diff.f4);
 
 end
