@@ -9,6 +9,7 @@ gamma = fluid.gamma;    % Specific Heat Ratio
 cv = fluid.cv; 
 
 %% xi direction
+i_idx = 2:nx+1;
 j_idx = 2:ny;   % Need fluxes over primary grid
 
 E.e1 = zeros(numel(2:nx+1), numel(2:ny));
@@ -16,13 +17,15 @@ E.e2 = zeros(numel(2:nx+1), numel(2:ny));
 E.e3 = zeros(numel(2:nx+1), numel(2:ny));
 E.e4 = zeros(numel(2:nx+1), numel(2:ny));
 
+[Q_l, Q_r] = muscl(Q, grid, i_idx, j_idx, 0, 0, 'xi');
+
 %%% Left State
-[rho_l, u_l, v_l, et_l, P_l, T_l, ht_l] = Q_to_primitive(Q.q1(1:nx,j_idx), Q.q2(1:nx,j_idx),...
-    Q.q3(1:nx,j_idx), Q.q4(1:nx,j_idx), grid.deltaV(1:nx,j_idx), fluid);
+[rho_l, u_l, v_l, et_l, P_l, T_l, ht_l] = Q_to_primitive(Q_l.q1, Q_l.q2,...
+    Q_l.q3, Q_l.q4, grid.deltaV(i_idx-1,j_idx), fluid);
 
 %%% Right State
-[rho_r, u_r, v_r, et_r, P_r, T_r, ht_r] = Q_to_primitive(Q.q1(2:nx+1,j_idx), Q.q2(2:nx+1,j_idx),...
-    Q.q3(2:nx+1,j_idx), Q.q4(2:nx+1,j_idx), grid.deltaV(2:nx+1,j_idx), fluid);
+[rho_r, u_r, v_r, et_r, P_r, T_r, ht_r] = Q_to_primitive(Q_r.q1, Q_r.q2,...
+    Q_r.q3, Q_r.q4, grid.deltaV(i_idx,j_idx), fluid);
 
 %%% Roe Averages
 [u_bar, v_bar, ht_bar, c_bar] = roe_avg(rho_l, rho_r, u_l, u_r, v_l, v_r, ht_l, ht_r, fluid);
@@ -76,19 +79,22 @@ E.e4 = reshape(E_half(4,1,:),size(n_x,1),size(n_x,2));
 
 %% eta direction
 i_idx = 2:nx;   % Need fluxes over primary grid
+j_idx = 2:ny+1;
 
 F.f1 = zeros(numel(2:nx), numel(2:ny+1));
 F.f2 = zeros(numel(2:nx), numel(2:ny+1));
 F.f3 = zeros(numel(2:nx), numel(2:ny+1));
 F.f4 = zeros(numel(2:nx), numel(2:ny+1));
 
+[Q_l, Q_r] = muscl(Q, grid, i_idx, j_idx, 0, 0, 'eta');
+
 %%% Left State
-[rho_l, u_l, v_l, et_l, P_l, T_l, ht_l] = Q_to_primitive(Q.q1(i_idx,1:ny), Q.q2(i_idx,1:ny),...
-    Q.q3(i_idx,1:ny), Q.q4(i_idx,1:ny), grid.deltaV(i_idx,1:ny), fluid);
+[rho_l, u_l, v_l, et_l, P_l, T_l, ht_l] = Q_to_primitive(Q_l.q1, Q_l.q2,...
+    Q_l.q3, Q_l.q4, grid.deltaV(i_idx,j_idx-1), fluid);
 
 %%% Right State
-[rho_r, u_r, v_r, et_r, P_r, T_r, ht_r] = Q_to_primitive(Q.q1(i_idx,2:ny+1), Q.q2(i_idx,2:ny+1),...
-    Q.q3(i_idx,2:ny+1), Q.q4(i_idx,2:ny+1), grid.deltaV(i_idx,2:ny+1), fluid);
+[rho_r, u_r, v_r, et_r, P_r, T_r, ht_r] = Q_to_primitive(Q_r.q1, Q_r.q2,...
+    Q_r.q3, Q_r.q4, grid.deltaV(i_idx,j_idx), fluid);
 
 %%% Roe Averages
 [u_bar, v_bar, ht_bar, c_bar] = roe_avg(rho_l, rho_r, u_l, u_r, v_l, v_r, ht_l, ht_r, fluid);
