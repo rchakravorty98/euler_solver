@@ -48,24 +48,18 @@ for j = [2 ny+1]
         int_ind = j-1;
         halo_ind = j;
     end
-    
+
     C1 = 1 ./ (S_eta_x(:,j-1).^2 + S_eta_y(:,j-1).^2);
     C2 = S_eta_x(:,j-1).^2 - S_eta_y(:,j-1).^2;
     C3 = S_eta_x(:,j-1) .* S_eta_y(:,j-1);
-
-    % Interior Velocities
-    u_int = Q.q2(2:nx, int_ind) ./ Q.q1(2:nx, int_ind);
-    v_int = Q.q3(2:nx, int_ind) ./ Q.q1(2:nx, int_ind);
+    
+    % Interior Cell Properties
+    [rho_int, u_int, v_int, et, P_int, T_int, ht_int] = Q_to_primitive(Q.q1(2:nx, int_ind),...
+        Q.q2(2:nx, int_ind), Q.q3(2:nx, int_ind), Q.q4(2:nx, int_ind), grid.deltaV(2:nx, int_ind), fluid);
 
     % Required Velocity Components in Halo Cells
     u_o = C1 .* (-u_int .* C2 -  2 .* v_int .* C3);
     v_o = C1 .* (v_int .* C2 -  2 .* u_int .* C3);
-
-    % Temperature and Pressure in Interior Cell
-    rho_int = Q.q1(2:nx, int_ind) ./ grid.deltaV(2:nx, int_ind);    % Interior Density
-    et = Q.q4(2:nx, int_ind) ./ Q.q1(2:nx, int_ind);                % Interior Total Energy
-    T_int = (et - 0.5*(u_int.^2+v_int.^2))/cv;                      % Interior Temperature
-    P_int = rho_int .* R .* T_int;                                  % Interior Pressure
 
     % Halo Cell
     rho_o = P_int ./ (R .* T_int);

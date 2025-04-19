@@ -20,7 +20,7 @@ function grid = setup_grid(filename, options)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 arguments
-    filename string
+    filename {mustBeMember(filename, {'test_grid.dat', 'g641x065uf.dat'})}
     options.plotFigs logical = false; 
     options.Lref = 1;   % Used to dimensionalize grid
 end
