@@ -31,22 +31,16 @@ nx = grid.nx;
 ny = grid.ny;
 
 %% xi Direction
-S_xi = zeros(nx, ny-1);
-S_xi_x = zeros(nx, ny-1);
-S_xi_y = zeros(nx, ny-1);
-x_xi = zeros(nx, ny-1);
-y_xi = zeros(nx, ny-1);
-for i = 2:nx+1
-    for j = 2:ny 
-        S_xi_x(i-1,j-1) = y(i,j+1)-y(i,j);
-        S_xi_y(i-1,j-1) = -(x(i,j+1)-x(i,j));
-        S_xi(i-1,j-1) = ((S_xi_x(i-1,j-1))^2 + (S_xi_y(i-1,j-1))^2)^(1/2);
+i = 2:nx+1;
+j = 2:ny;
+S_xi_x = y(i,j+1) - y(i,j) ;
+S_xi_y = -(x(i,j+1) -x(i,j));
 
-        %%% Location of Midpoint of Cell Faces Perpendicular to xi Direction
-        x_xi(i-1,j-1) = (x(i,j+1)+x(i,j))/2;
-        y_xi(i-1,j-1) = (y(i,j+1)+y(i,j))/2;
-    end
-end
+S_xi = (S_xi_x.^2 + S_xi_y.^2).^(1/2);
+
+%%% Location of Midpoint of Cell Faces Perpendicular to xi Direction
+x_xi = (x(i,j+1)+x(i,j))/2;
+y_xi = (y(i,j+1)+y(i,j))/2;
 
 xi.S = S_xi;
 xi.Sx = S_xi_x;
@@ -55,22 +49,16 @@ xi.x = x_xi;
 xi.y = y_xi;
 
 %% eta Direction
-S_eta = zeros(nx-1, ny);
-S_eta_x = zeros(nx-1, ny);
-S_eta_y = zeros(nx-1, ny);
-x_eta = zeros(nx-1, ny);
-y_eta = zeros(nx-1, ny);
-for i = 2:nx
-    for j = 2:ny+1 
-        S_eta_x(i-1,j-1) = -(y(i+1,j)-y(i,j));
-        S_eta_y(i-1,j-1) = x(i+1,j)-x(i,j);
-        S_eta(i-1,j-1) = ((S_eta_x(i-1,j-1))^2 + (S_eta_y(i-1,j-1))^2)^(1/2);
+i = 2:nx;
+j = 2:ny+1;
+S_eta_x = y(i,j) - y(i+1,j);
+S_eta_y = -(x(i,j) -x(i+1,j));
 
-        %%% Location of Midpoint of Cell Faces Perpendicular to eta Direction
-        x_eta(i-1,j-1) = (x(i+1,j)+x(i,j))/2;
-        y_eta(i-1,j-1) = (y(i+1,j)+y(i,j))/2;
-    end
-end
+S_eta = (S_eta_x.^2 + S_eta_y.^2).^(1/2);
+
+%%% Location of Midpoint of Cell Faces Perpendicular to eta Direction
+x_eta = (x(i+1,j)+x(i,j))/2;
+y_eta = (y(i+1,j)+y(i,j))/2;
 
 eta.S = S_eta;
 eta.Sx = S_eta_x;
