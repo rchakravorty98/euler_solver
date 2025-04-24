@@ -20,7 +20,7 @@ function grid = setup_grid(filename, options)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 arguments
-    filename {mustBeMember(filename, {'test_grid.dat', 'g641x065uf.dat'})}
+    filename {mustBeMember(filename, {'test_grid.dat', 'g641x065uf.dat', 'g321x033uf.dat'})}
     options.plotFigs logical = false; 
     options.Lref = 1;   % Used to dimensionalize grid
 end
@@ -78,7 +78,7 @@ y_ij_halo(1:nx+2, 1) = 2*y_ij_halo(1:nx+2, 2) - y_ij_halo(1:nx+2, 3);
 
 %%% Top
 x_ij_halo(1:nx+2, ny+2) = x_ij_halo(1:nx+2, ny+1);
-y_ij_halo(1:nx+2, ny+2) =2*y_ij_halo(1:nx+2, ny+1) - y_ij_halo(1:nx+2, ny);
+y_ij_halo(1:nx+2, ny+2) = 2*y_ij_halo(1:nx+2, ny+1) - y_ij_halo(1:nx+2, ny);
 
 %% Output
 grid.x = x_ij_halo;
