@@ -14,14 +14,14 @@ if strcmp(dir, 'xi')
     C1 = 1;
     C2 = 0;
 
-    i_int = i(2:end-1);
-    j_int = j(2:end-1);
+    i_int = i(3:end-2);
+    j_int = j(3:end-2);
 elseif strcmp(dir, 'eta')
     C1 = 0;
     C2 = 1;
 
-    i_int = i(2:end-1);
-    j_int = j(2:end-1);
+    i_int = i(3:end-2);
+    j_int = j(3:end-2);
 end
 
 %% Initialize Left/Right States with 1st order
@@ -48,23 +48,28 @@ if eps == 1
         q_ip1 = q(i_int + 1*C1, j_int + 1*C2);
 
         dq_im1_im2 = q_im1-q_im2;
+        dq_im1_im2(dq_im1_im2 == 0) = 1e-12;
+
         dq_i_im1 = q_i-q_im1;
+        dq_i_im1(dq_i_im1 == 0) = 1e-12;
+
         dq_ip1_i = q_ip1 - q_i;
-        
-        rl = (q_i-q_im1)./(q_im1-q_im2);
-        rr = (q_i-q_im1)./(q_ip1-q_i);
+        dq_ip1_i(dq_ip1_i == 0) = 1e-12;
+  
+        rl = dq_i_im1 ./ dq_im1_im2;
+        rr = dq_i_im1 ./ dq_ip1_i;
 
         phi_l = vanLeer(rl);
         phi_r = vanLeer(rr);
 
         phi_l_inv = vanLeer(1./rl);
         phi_r_inv = vanLeer(1./rr);
+        % 
+        % Q_l.(field)(i_int-1, j_int-1) = q_im1 +  (1/4) .* ( (1-k)*dq_im1_im2.*phi_l + (1+k)*dq_i_im1.*phi_l_inv );
+        % Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1.*phi_r_inv + (1-k)*dq_ip1_i.*phi_r );
 
-        Q_l.(field)(i_int-1, j_int-1) = q_im1 +  (1/4) .* ( (1-k)*dq_im1_im2.*phi_l + (1+k)*dq_i_im1.*phi_l_inv );
-        Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1.*phi_r_inv + (1-k)*dq_ip1_i.*phi_r );
-
-        % Q_l.(field)(i_int-1, j_int-1) = q_im1 + (1/4) .* ( (1-k)*dq_im1_im2 + (1+k)*dq_i_im1 );
-        % Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1 + (1-k)*dq_ip1_i );
+        Q_l.(field)(i_int-1, j_int-1) = q_im1 + (1/4) .* ( (1-k)*dq_im1_im2 + (1+k)*dq_i_im1 );
+        Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1 + (1-k)*dq_ip1_i );
 
     end
 end
@@ -72,17 +77,5 @@ end
 end    
 
 function phi = vanLeer(r)
-    phi = (r + abs(r))./(1 + abs(r) + 1e-12);
-    phi(isnan(phi)) = 0;
-end
-
-function phi = minmod(r)
-    phi = max(0, min(1,r));
-    phi(isnan(phi)) = 0;
-end
-
-function phi = MC(r)
-    C1 = min(2*r, 0.5*(1+r));
-    C2 = min(C1, 2);
-    phi = max(0, C2);
+    phi = (r + abs(r))./(1 + abs(r));
 end

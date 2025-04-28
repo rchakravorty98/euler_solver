@@ -1,14 +1,6 @@
-function [E, F] = ausm_scheme(Q, grid, fluid)
-eps = 1;
-k = 0.5;
-
+function [E, F] = ausm_scheme(Q, grid, fluid, eps, k)
 nx = grid.nx;
 ny = grid.ny;
-
-R = fluid.R;            % Ideal Gas Constant [J/kg*K]
-cp = fluid.cp;          % Specific Heat [J/kg*k]
-gamma = fluid.gamma;    % Specific Heat Ratio
-cv = fluid.cv; 
 
 %% xi direction
 i_idx = 2:nx+1;
