@@ -64,12 +64,9 @@ if eps == 1
 
         phi_l_inv = vanLeer(1./rl);
         phi_r_inv = vanLeer(1./rr);
-        % 
-        % Q_l.(field)(i_int-1, j_int-1) = q_im1 +  (1/4) .* ( (1-k)*dq_im1_im2.*phi_l + (1+k)*dq_i_im1.*phi_l_inv );
-        % Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1.*phi_r_inv + (1-k)*dq_ip1_i.*phi_r );
 
-        Q_l.(field)(i_int-1, j_int-1) = q_im1 + (1/4) .* ( (1-k)*dq_im1_im2 + (1+k)*dq_i_im1 );
-        Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1 + (1-k)*dq_ip1_i );
+        Q_l.(field)(i_int-1, j_int-1) = q_im1 +  (1/4) .* ( (1-k)*dq_im1_im2.*phi_l + (1+k)*dq_i_im1.*phi_l_inv );
+        Q_r.(field)(i_int-1, j_int-1) = q_i - (1/4) .* ( (1+k)*dq_i_im1.*phi_r_inv + (1-k)*dq_ip1_i.*phi_r );
 
     end
 end

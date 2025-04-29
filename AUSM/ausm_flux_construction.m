@@ -12,7 +12,7 @@ sigma = 1;
 [rho_l, u_l, v_l, et_l, P_l, T_l, ht_l] = Q_to_primitive(Q_l.q1, Q_l.q2,...
     Q_l.q3, Q_l.q4, deltaV_l, fluid);
 
-contra_vel_left = u_l.* n_x + v_l.*n_y;
+contra_vel_left = u_l.* n_x + v_l.*n_y; 
 
 psi_l = [ones(1,1,numel(Q_l.q1));...
     reshape(u_l, 1, 1, []);...
@@ -31,6 +31,7 @@ psi_r = [ones(1,1,numel(Q_r.q1));...
     reshape(ht_r, 1, 1, [])];
 
 %% Half States
+% c_half = 0.5 * (c_l + c_r);
 rho_half =  0.5 * (rho_l + rho_r);
 
 crit_cl = ( 2 * ht_l * (gamma-1)/(gamma+1) ).^(1/2);
