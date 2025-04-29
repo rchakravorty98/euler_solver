@@ -6,7 +6,7 @@ ny = grid.ny;
 i_idx = 2:nx+1;
 j_idx = 2:ny;   % Need fluxes over primary grid
 
-[Q_l, Q_r] = muscl(Q, grid, i_idx, j_idx, eps, k, 'xi');
+[Q_l, Q_r] = muscl(Q, grid, i_idx, j_idx, eps, k, 'xi', fluid);
 
 n_x = grid.xi.Sx./grid.xi.S;
 n_y = grid.xi.Sy./grid.xi.S;
@@ -19,7 +19,7 @@ deltaV_r = grid.deltaV(i_idx,j_idx);
 i_idx = 2:nx;   % Need fluxes over primary grid
 j_idx = 2:ny+1;
 
-[Q_l, Q_r] = muscl(Q, grid, i_idx, j_idx, eps, k, 'eta');
+[Q_l, Q_r] = muscl(Q, grid, i_idx, j_idx, eps, k, 'eta', fluid);
 
 n_x = grid.eta.Sx./grid.eta.S;
 n_y = grid.eta.Sy./grid.eta.S;

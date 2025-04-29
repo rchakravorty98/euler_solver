@@ -115,3 +115,12 @@ colormap turbo
 colorbar()
 title('\rho/\rho_{ref}')
 fig.Position = [0 0 fig.Position(3)*3.25 fig.Position(4)*3];
+
+fig = figure();
+mach = (u.^2 + v.^2).^(1/2) ./ c;
+contourf(grid.xc(2:grid.nx, 2:grid.ny), grid.yc(2:grid.nx, 2:grid.ny), mach(2:grid.nx, 2:grid.ny),...
+    [min(min(mach)):0.01:max(max(mach))], 'LineColor', 'none')
+colormap turbo
+colorbar()
+title('Mach')
+fig.Position = [0 0 fig.Position(3)*3.25 fig.Position(4)];
