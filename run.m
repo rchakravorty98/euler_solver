@@ -70,7 +70,7 @@ for i = 1:max_iter
 
 end
 
-%%
+%% Plots
 [rho, u, v, et, P, T] = Q_to_primitive(Q.q1, Q.q2, Q.q3, Q.q4, grid.deltaV, fluid);
 c = (fluid.gamma .* fluid.R .* T).^(1/2);
 
@@ -86,7 +86,7 @@ tiledlayout(4,1)
 nexttile
 u_norm = u/free_stream.u_ref;
 contourf(grid.xc(2:grid.nx, 2:grid.ny), grid.yc(2:grid.nx, 2:grid.ny), u_norm(2:grid.nx, 2:grid.ny),...
-    [min(min(u_norm)):0.0005:max(max(u_norm))], 'LineColor', 'none')
+    [0.6:0.0005:1], 'LineColor', 'none')
 colormap turbo
 colorbar()
 title('U/U_{ref}')
@@ -94,7 +94,7 @@ title('U/U_{ref}')
 nexttile
 p_norm = (P-free_stream.P_ref) ./ (free_stream.rho_ref*free_stream.u_ref^2);
 contourf(grid.xc(2:grid.nx, 2:grid.ny), grid.yc(2:grid.nx, 2:grid.ny), p_norm(2:grid.nx, 2:grid.ny),...
-    [min(min(p_norm)):0.0005:max(max(p_norm))], 'LineColor', 'none')
+    [-0.04:0.0005:0.56], 'LineColor', 'none')
 colormap turbo
 colorbar()
 title('(P-P_{ref})/(\rho_{ref}*U_{ref}^2)')
@@ -102,7 +102,7 @@ title('(P-P_{ref})/(\rho_{ref}*U_{ref}^2)')
 nexttile
 T_norm = (T-free_stream.T_ref) ./ ((free_stream.c_ref.^2)/1004.5);
 contourf(grid.xc(2:grid.nx, 2:grid.ny), grid.yc(2:grid.nx, 2:grid.ny), T_norm(2:grid.nx, 2:grid.ny),...
-    [min(min(T_norm)):0.0005:max(max(T_norm))], 'LineColor', 'none')
+    [-0.5:0.0005:2.4], 'LineColor', 'none')
 colormap turbo
 colorbar()
 title('(T-T_{ref})/(c_{ref}^{2}*cp_{ref})')
@@ -110,7 +110,7 @@ title('(T-T_{ref})/(c_{ref}^{2}*cp_{ref})')
 nexttile
 rho_norm = rho ./ free_stream.rho_ref;
 contourf(grid.xc(2:grid.nx, 2:grid.ny), grid.yc(2:grid.nx, 2:grid.ny), rho_norm(2:grid.nx, 2:grid.ny),...
-    [min(min(rho_norm)):0.0005:max(max(rho_norm))], 'LineColor', 'none')
+    [0.5:0.0005:4], 'LineColor', 'none')
 colormap turbo
 colorbar()
 title('\rho/\rho_{ref}')
